@@ -1,0 +1,11 @@
+*.m
+
+*.log
+
+*.mat
+
+*.eps
+
+*.asv
+
+.Rhistory
