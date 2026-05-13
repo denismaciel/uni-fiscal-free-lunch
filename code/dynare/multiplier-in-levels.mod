@@ -13,12 +13,14 @@ gov(i) = gov(i-1) + liqmul.g(i+273) - liqmul.g(i-1+273);
 
 end
 
-figure;
-plot(20*gov, test, 'linewidth', 3);
-ylabel(gca,'Output','FontSize',16);
-xlabel(gca,'Government Spending','FontSize',16)
-
-
+mkdir('output');
+mkdir('output/data');
+fid = fopen('output/data/multiplier-in-levels.csv', 'w');
+fprintf(fid, 'government_spending,output\n');
+for i = 1:length(test)
+	fprintf(fid, '%.15g,%.15g\n', 20*gov(i), test(i));
+end;
+fclose(fid);
 
 k = zeros((length(test)-1), 1)
 for i = 1:(length(test)-1)

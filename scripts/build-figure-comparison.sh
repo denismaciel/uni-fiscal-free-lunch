@@ -78,8 +78,14 @@ find_generated_for() {
     figure-1b-presentation)
       aliases+=("figure-1b")
       ;;
+    figure-1b-scatter)
+      aliases+=("figure-1b-scatter")
+      ;;
     figure-2-no-ir)
       aliases+=("figure-2-no-inflation-response")
+      ;;
+    figure-2-5-quarter-price-contract)
+      aliases+=("figure-2-5-quarter")
       ;;
     figure-3-10-quarter-price-contract-multiplier)
       aliases+=("figure-3-runs/multiplier-xip-0.90")
@@ -125,9 +131,13 @@ mapfile -t generated_files < <(
 )
 
 mapfile -t original_files < <(
-  find "$repo_root/paper/figures/original" -maxdepth 1 -type f \
-    \( -iname '*.pdf' -o -iname '*.eps' -o -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) \
-    | sort
+  {
+    find "$repo_root/paper/figures/original" -maxdepth 1 -type f \
+      \( -iname '*.pdf' -o -iname '*.eps' -o -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \)
+    if [[ -f "$repo_root/paper/figures/figure-1b-scatter.eps" ]]; then
+      printf '%s\n' "$repo_root/paper/figures/figure-1b-scatter.eps"
+    fi
+  } | sort
 )
 
 {

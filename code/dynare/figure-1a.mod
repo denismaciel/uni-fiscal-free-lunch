@@ -41,25 +41,17 @@ simul(periods=150);
 irfs_gov2 = oo_.endo_simul;
 
 
-//Plotting Figure 1a tu show the liquidity duration, iV, rpot & government spending increase of 1% and 2% of GDP
-figure;
-plot(2:16,400* irfs_gov0 (5, 2:16), 'b',  'linewidth',5);hold on;
-plot(2:16,400* irfs_gov0 (3, 2:16), 'r-.', 'linewidth',7);hold on;
-plot(2:16,400* irfs_gov1 (5, 2:16), 'g--','linewidth',5);hold on;
-plot(2:16,400* irfs_gov2 (5, 2:16), 'k-.','linewidth',5);
-title('Negative Taste Shock and Fiscal Response','fontweight','bold','FontSize',20);
-set(gca,'fontsize',18);
-set(gca,'Ylim',[-10,0]);
-set(gca,'YTick',[-10:0]);
-set(gca, 'YTickLabel', {'-10' ,'','','','','-5' ,'-i' ,'','','','0' });
-set(gca,'Xlim',[1,12]);
-set(gca,'XTick',[2:4:12]);
-set(gca,'XTickLabel', {'0' ,'4' ,'8' ,'12' });
-xlabel('Quarters');
-legend(' Potential real rate (taste shock only)',' Nominal interest rate (taste shock only)', ' Pot real rate -1% g(t) increase',' Pot real rate -2% g(t) increase','location','SouthEast');
 mkdir('output');
-mkdir('output/figures');
-print('-dpdf', 'output/figures/figure-1a.pdf');
+mkdir('output/data');
+fid = fopen('output/data/figure-1a.csv', 'w');
+fprintf(fid, 'quarter,series,value\n');
+for t = 2:16
+	fprintf(fid, '%d,potential_real_rate_taste_shock_only,%.15g\n', t-2, 400*irfs_gov0(5,t));
+	fprintf(fid, '%d,nominal_interest_rate_taste_shock_only,%.15g\n', t-2, 400*irfs_gov0(3,t));
+	fprintf(fid, '%d,potential_real_rate_1_percent_g_increase,%.15g\n', t-2, 400*irfs_gov1(5,t));
+	fprintf(fid, '%d,potential_real_rate_2_percent_g_increase,%.15g\n', t-2, 400*irfs_gov2(5,t));
+end;
+fclose(fid);
 
 //Calculate liquidity trap duration
 liqduration =  [sum(irfs_gov1(3,1:end) == -ibar) sum(irfs_gov2(3,1:end) == -ibar)]

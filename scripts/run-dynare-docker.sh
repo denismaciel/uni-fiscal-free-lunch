@@ -103,9 +103,9 @@ run_dynare_model() {
 
 case "$experiment" in
   all-figures)
-    write_wrapper "figure-1a-run.mod" "figure-1a.mod"
-    write_wrapper "figure-1b-run.mod" "figure-1b.mod"
-    cat > "$run_dir/figure-2-run.mod" <<EOF
+    write_wrapper "figure_1a_run.mod" "figure-1a.mod"
+    write_wrapper "figure_1b_run.mod" "figure-1b.mod"
+    cat > "$run_dir/figure_2_run.mod" <<EOF
 @#define XIP = $xip
 @#define GAM_XGAP = $gam_xgap
 @#define GAM_PI = $gam_pi
@@ -115,7 +115,7 @@ case "$experiment" in
 @#include "model/base.mod"
 @#include "experiments/figure-2.mod"
 EOF
-    cat > "$run_dir/figure-2-xip-0_8-run.mod" <<EOF
+    cat > "$run_dir/figure_2_xip_0_8_run.mod" <<EOF
 @#define XIP = 0.8
 @#define GAM_XGAP = $gam_xgap
 @#define GAM_PI = $gam_pi
@@ -125,7 +125,17 @@ EOF
 @#include "model/base.mod"
 @#include "experiments/figure-2.mod"
 EOF
-    models=("figure-1a-run.mod" "figure-1b-run.mod" "figure-2-run.mod" "figure-2-xip-0_8-run.mod")
+    cat > "$run_dir/figure_2_xip_0_8_taylor_run.mod" <<EOF
+@#define XIP = 0.8
+@#define GAM_XGAP = 0.2
+@#define GAM_PI = 1.5
+@#define SIG_CON = $sig_con
+@#define SIG_GOV = $sig_gov
+
+@#include "model/base.mod"
+@#include "experiments/figure-2.mod"
+EOF
+    models=("figure_1a_run.mod" "figure_1b_run.mod" "figure_2_run.mod" "figure_2_xip_0_8_run.mod" "figure_2_xip_0_8_taylor_run.mod")
     ;;
   figure-1a)
     write_wrapper "experiment.mod" "figure-1a.mod"
@@ -168,23 +178,15 @@ if [[ "$experiment" == "figure-3" || "$experiment" == "all-figures" ]]; then
     write_wrapper "figure_3_xip_${wrapper_xip}.mod" "figure-3.mod"
     run_dynare_model "figure_3_xip_${wrapper_xip}.mod"
   done
-
-  docker run --rm \
-    --entrypoint bash \
-    --user root \
-    -v "$run_dir:/work" \
-    -w /work \
-    dynare/dynare:latest \
-    -lc "octave --no-gui figure-3-plotting.mod"
 fi
 
 for model in "${models[@]}"; do
   run_dynare_model "$model"
 done
 
-if [[ -d "$run_dir/output/figures" ]]; then
-  mkdir -p "$repo_root/artifacts/figures"
-  cp -R "$run_dir/output/figures"/. "$repo_root/artifacts/figures"/
+if [[ -d "$run_dir/output/data" ]]; then
+  mkdir -p "$repo_root/artifacts/data"
+  cp -R "$run_dir/output/data"/. "$repo_root/artifacts/data"/
 fi
 
 docker run --rm \

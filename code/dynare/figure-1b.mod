@@ -46,18 +46,11 @@ for i = 1:size(A,3)
 end
 
 
-//Plotting Figure 1b to show the liquidity trap duration and the path of the policy rate
-plot(400 * rpot, liqduration, 'b',  'linewidth',5);                                                     //change plot(..) to scatter(..) to get the scatter plot
-title('Liquidity Trap Duration and Potential Real Interest Rate','fontweight','bold','FontSize',20);
-set(gca,'fontsize',18);
-ylabel('Liquidity trap duration');
-set(gca,'Ylim',[0,15]);
-set(gca,'YTick',[0:5:15]);
-set(gca,'YTickLabel', {'0' ,'5' ,'10' ,'15' });
-xlabel('Potential Real Interest Rate');
-set(gca,'Xlim',[-14,0]);
-set(gca,'XTick',[-14:2:0]);
-set(gca,'XTickLabel',{'-14' ,'-12' ,'-10' ,'-8' ,'-6' ,'-4' ,'-2' ,'0' });
 mkdir('output');
-mkdir('output/figures');
-print('-dpdf', 'output/figures/figure-1b.pdf');
+mkdir('output/data');
+fid = fopen('output/data/figure-1b.csv', 'w');
+fprintf(fid, 'potential_real_interest_rate,liquidity_trap_duration\n');
+for i = 1:length(rpot)
+	fprintf(fid, '%.15g,%.15g\n', 400*rpot(i), liqduration(i));
+end;
+fclose(fid);

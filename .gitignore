@@ -37,6 +37,7 @@ code/**/*.mat
 code/**/*_dynamic.m
 code/**/*_static.m
 artifacts/dynare-run/
+artifacts/data/
 artifacts/figures/
 artifacts/comparison/
 artifacts/figure-comparison.html
