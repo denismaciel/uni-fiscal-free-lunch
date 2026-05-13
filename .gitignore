@@ -26,6 +26,7 @@
 
 # Generated PDFs
 *.pdf
+!artifacts/fiscal-free-lunch-paper.pdf
 
 # Generated EPS conversions
 *-eps-converted-to.pdf

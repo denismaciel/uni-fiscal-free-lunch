@@ -1,12 +1,11 @@
 # Code
 
-This directory keeps the imported code and the reproducible working copy separate.
+This directory keeps the working simulation and figure-generation code.
 
-- `original/`: untouched import from `denismaciel/uni-fiscalfreelunch`.
 - `dynare/model/base.mod`: shared Dynare model definition.
 - `dynare/experiments/`: figure-specific simulation scripts.
 - `dynare/model.mod`: compatibility wrapper for the default Figure 2 run.
-- `R/`: R helper scripts from the original import.
+- `R/`: R/ggplot figure-generation scripts.
 
 Run the current Dynare baseline with Docker:
 
@@ -55,7 +54,6 @@ mul = 0.5840
 debtgov = 0.012692
 ```
 
-The original Figure 2 file had a stale plotting line,
+The imported Figure 2 source had a stale plotting line,
 `plot(25*debtg(1:40));`, which fails because `debtg` is not a standalone
-workspace variable. The cleaned copy removes that line; `code/original/` is left
-unchanged.
+workspace variable. The cleaned working copy removes that line.
