@@ -1,67 +1,37 @@
-
-*.toc
-
-*.pdf
-
-*.lot
-
-*.log
-
-*.lof
-
-
-*.gz
-
-*.pdf
-
-*.log
-
-*.aux
-
-*.toc
-
-*.lot
-
-*.lof
-
-*.blg
-
-*.fls
-
-
-
-*.aux
-*.glo
-*.idx
-*.log
-*.toc
-*.ist
+# LaTeX build products
 *.acn
 *.acr
 *.alg
+*.aux
 *.bbl
+*.bcf
 *.blg
+*.brf
 *.dvi
+*.fdb_latexmk
+*.fls
 *.glg
+*.glo
 *.gls
+*.idx
 *.ilg
 *.ind
 *.lof
+*.log
 *.lot
-*.maf
-*.mtc
-*.mtc1
 *.out
+*.run.xml
 *.synctex.gz
+*.toc
 
+# Generated PDFs
+*.pdf
 
+# Generated EPS conversions
+*-eps-converted-to.pdf
 
-*.ps
-
-*.ps
-
-*.dvi
-
-*.blg
-
-*.bbl
+# Local/editor caches
+.latex/
+.venv/
+.direnv/
+.DS_Store
