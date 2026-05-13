@@ -1,0 +1,42 @@
+\usepackage[round, comma]{natbib}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage[USenglish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+\usepackage{setspace}
+\onehalfspacing
+
+% Keep display equations compact, matching the original submitted layout.
+\makeatletter
+\g@addto@macro\normalsize{%
+  \setlength\abovedisplayskip{2pt}
+  \setlength\belowdisplayskip{5pt}
+  \setlength\abovedisplayshortskip{0pt}
+  \setlength\belowdisplayshortskip{0pt}
+}
+\makeatother
+
+\usepackage{geometry}
+\geometry{a4paper,left=30mm,right=25mm, top=2cm, bottom=3cm}
+
+\usepackage{microtype}
+\usepackage{footmisc}
+\usepackage[tbtags]{mathtools}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{booktabs}
+\usepackage{marvosym}
+\usepackage{titletoc}
+\usepackage[small]{titlesec}
+\usepackage{epstopdf}
+\usepackage[hidelinks,hypertexnames=false]{hyperref}
+
+\graphicspath{{artifacts/figures/}{paper/assets/}{paper/figures/}}
+
+\dottedcontents{section}[3em]{\bfseries}{2.9em}{1pc}
+\dottedcontents{subsection}[4em]{}{3.3em}{1pc}
+
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\thesection.\Roman{subsection}}

@@ -1,0 +1,74 @@
+\section{The Model}
+In this section we describe and summarize the baseline illustration of the New Keynesian dynamic stochastic general equilibrium (DSGE) model \citet{Erceg.2014} use in their paper.\footnote{Additional information and a more detailed derivation of the standard log-linearized version of the New Keynesian model can be found in the Online Appendix of the original paper.} The New Keynesian DSGE model has a RBC-core, but allows for two inefficiencies, so that shocks can cause deviations from the \textit{natural level}: monopolistic competition among firms and the Calvo model of firms' price setting. Therefore, the New Keynesian model addresses the deficits of the RBC-models and makes the more realistic assumptions that prices do not adjust instantaneously and markets are not perfectly competitive. Consequently, monetary policy can affect the real interest rate and have real effects on the economy. The microfoundation permits a normative policy analysis.
+\subsection*{Households}
+
+The representative household makes the intertemporal consumption decision by maximizing
+\begin{equation}
+E_t \sum_{j=0}^\infty \beta^j \left\{ \frac{1}{1- \frac{1}{\sigma}} \left(C_{t+j} - C\nu_{t+j}\right)^{1-\frac{1}{\sigma}} - \frac{N_{t+j}^{1+\chi}}{1+\chi} + \mu_0F \left(\frac{MB_{t+j+1}(h)}{P_{t+j}}\right)\right\} \nonumber
+\end{equation}
+under the constraint\newline
+$P_t(1+\tau_{C,t})C_t + B_{G,t} + MB_{t+1} = (1-\tau_{N,t})W_tN_t + (1+i_{t-1})B_{G,t-1} + MB_t - T_t + \Gamma_t, \vspace{0.2cm}$
+where 0 $< \beta < 1$ is the discount factor and $E_t$ the rational expectations operator. The utility function depends on the households current consumption $C_t$ as deviation from a “reference level” $C\nu_{t+j}$, where the negative taste shock $\nu_t$ reduces this steady-state level. The taste shock, which is responsible for triggering the liquidity trap, enters the model in the household's utility function and affects the consumption decision of the household. The shock changes the marginal utility of consumption and so the willingness of the household to consume.\newline
+The utility function also depends inversely on hours worked $N_t$. By assuming that $\mu_0$ is arbitrarily small, changes in real money balances have negligible implications for seignorage in the model. The household's budget constraint implies that the expenditure on goods and net purchases of government bonds $B_{G,t}$ equals the after-tax labor income $ \left(1 - \tau_{N,t} \right) W_tN_t$, minus a lump-sum tax $T_t$, plus a proportional share of the profits $\Gamma_t$ of all intermediate firms. The household's optimal plan needs to satisfy the first order conditions, so that we get
+\begin{align}
+\vspace{-0.5cm} \left(C_t - C\nu_t\right)^{-\frac{1}{\sigma}}  - \lambda_tP_t \left(1 + \tau_{C,t} \right) = 0,\nonumber\\
+-N_t^{\chi} + \lambda_t \left(1 - \tau_{N,t} \right) W_t = 0,\nonumber\\
+-\lambda_t + \beta \left(1 + i_t \right) E_t\lambda_{t+1} = 0,\nonumber
+\end{align}
+and finally the Euler equation
+\begin{equation}
+\frac {\left(C_t - C\nu_t\right)^{-\frac{1}{\sigma}}}{\left(1 + \tau_{C,t} \right)} = \beta E_t \frac{\left(1 + i_t \right)}{1 + \pi_{t+1}} \frac{\left(C_{t+1} - C\nu_{t+1}\right)^{-\frac{1}{\sigma}}}{\left(1+ \tau_{C,t+1}\right)},
+\end{equation}
+and the aggregate labor supply relation
+\begin{equation}
+mrs_t \equiv \frac{N_t^\chi}{\left(C_t - C\nu_t\right)^{-\frac{1}{\sigma}}} = \frac{\left(1 - \tau_{N,t}\right)}{\left(1 + \tau_{C,t}\right)} \frac{W_t}{P_t}.
+\end{equation}
+The last equation shows that the marginal rate of substitution between consumption and labor must equal the after-tax real wage. In our simple New Keynesian Model we set the sales tax $\tau_{C,t}$ equal to zero to get the same results as in the paper.
+
+\subsection*{Firms}
+The production function of the firms is described by
+\begin{equation}
+Y_t = K^\alpha N_t^{1-\alpha},\vspace{-0.3cm} \nonumber
+\end{equation}
+where aggregate capital is fixed, but shares of the aggregate capital stock can be allocated across the firms. All firms choose the factor demand such that costs are minimized. The real factor costs per marginal product therefore are
+\begin{equation}
+\frac{MC_t}{P_t} = \frac{W_t/P_t}{\left(1 - \alpha \right) K^\alpha N_t^{-\alpha}}.
+\end{equation}
+The firm, which can reset its price in period t, chooses a price $\left(P_t^{opt} \right)$ and maximizes
+\begin{equation}
+\max_{P_t^{opt}\left(f\right)} E_t \sum_{j=0}^\infty \xi_p^j \psi_{t,t+j} \left[ \left(1 + \pi \right)^j P_t^{opt}\left(f\right) - MC_{t+j} \right] Y_{t+j} \left(f\right),\nonumber
+\end{equation}
+where $\psi_{t,t+j}$ is the discount factor and $\xi$ the probability that the firm's price set in t will still be the same in period t+1. The demand function for the good $\left(f\right)$ faced by the firm is given by
+\begin{equation}
+Y_{t+j}\left(f\right) = \left[\frac{P_t \left(f\right)}{P_t} \right]^{\frac{-\left(1+\theta_p\right)}{\theta_p}} Y_t \nonumber,
+\end{equation}
+which varies with the relative price of the good, the substitution elasticity $\theta$ and the aggregate demand $Y_t$. The first order condition with optimal price $\left(P_t^{opt} \right)$ is
+\begin{equation}
+E_t \sum_{j=0}^\infty \xi_p^j \psi_{t,t+j} \left[ \frac{\left(1 + \pi \right)^j P_t^{opt}\left(f\right)}{1 + \theta_p} - MC_{t+j} \right] Y_{t+j}\left(f\right) = 0.
+\end{equation}
+To derive the New Keynesian Phillips curve, we also need the average price of the final goods
+\begin{equation}
+P_t = \left[\left(1 - \xi_p\right)\left(P_t^{opt}\right)^{\frac{-1}{\theta_p}} + \xi_p \left(\left(1 + \pi\right)P_{t-1}\right)^{\frac{-1}{\theta_p}} \right]^{-\theta_p}.
+\end{equation}
+Finally, we have to derive the aggregate resource constraint
+\begin{equation}
+C_t + G_t \leq \left(\frac{P_t^*}{P_t}\right)^{\frac{\left(1+\theta_p\right)}{\theta_p}} K^\alpha N_t^{1-\alpha},
+\end{equation}
+where actual output $Y_t$ can be divided into private consumption and government spending $\left(Y_t \equiv C_t + G_t \right)$.\newline
+By log-linearizing the equations (1) to (7) around the steady-state and after some rearranging, we get the key equations of the model used in the \citet{Erceg.2014}.
+
+\subsection*{The Government}
+
+The government budget constraint is given by
+\begin{equation}
+B_{G,t} = \left(1 + i_{t-1}\right)B_{G,t-1} + P_tG_t - \tau_{C,t}P_tC_t - \tau_{N,t}W_tN_t - T_t - MB_{t+1} + MB_t,  \nonumber
+\end{equation}
+where after scaling with $1/ P_tY_t$, the left side of the equation defines the end-of-period real government debt. In the model the government can issue bonds to finance the budget. As mentioned before, we set the consumption tax $\tau_{C,t}$ in our simplified model for all t equal to zero. The government charges the labor income with a constant tax rate $\tau_N$ according to the equation \[\tau_N = \frac{g_y}{s_N}\] with $g_y$ as the government share of steady-state output $\left(g_y = 0.2 \right)$ and $s_N$ as the steady-state labor share $\left(s_N = 0.7\right)$.
+The government also collects a lump-sum tax $\left(\tau_t \equiv T_t/(P_tY)\right)$, which varies in time and adjusts according to the evolution of the debt stock $\left(\tau_t = \varphi_b b_{G,t-1}\right)$. Therefore, the fiscal policy specifies that taxes respond to government debt, but does not affect other macro variables in the model. We set the tax rule parameter $\varphi_b$ equal to 0.01. Consequently, the evolution of the tax base depends mostly on the variation in labor tax revenues the first years after a negative taste shock. The government budget is zero in steady-state in the simple benchmark model.\newline
+Monetary policy follows a Taylor rule which is subject to the zero lower bound
+\begin{equation}
+i_t = max \left(-i, \gamma_{\pi} \pi_t + \gamma_x x_t\right)  \nonumber.
+\end{equation}
+By setting the parameters $\gamma_{\pi}$ and $\gamma_x$ arbitrarily large, we assume that the monetary policy would completely stabilizes inflation and the output gap in absence of the the zero lower bound. In the next section, we also consider the alternative case where the parameters of the monetary policy rules are lower.\newline
+Table \ref{tab:benchmark-parameters} provides an overview over the parameter values, we use in our benchmark calculation.
+\bigskip

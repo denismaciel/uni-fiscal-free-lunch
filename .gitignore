@@ -1,4 +1,5 @@
 # LaTeX build products
+compilation/
 *.acn
 *.acr
 *.alg

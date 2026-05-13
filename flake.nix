@@ -63,9 +63,10 @@
               self.packages.${system}.default
             ];
             text = ''
-              latexmk -pdf -interaction=nonstopmode -halt-on-error paper/main.tex
+              mkdir -p compilation
+              latexmk -pdf -outdir=compilation -interaction=nonstopmode -halt-on-error paper/main.tex
               mkdir -p artifacts
-              cp main.pdf artifacts/fiscal-free-lunch-paper.pdf
+              cp compilation/main.pdf artifacts/fiscal-free-lunch-paper.pdf
             '';
           };
         in

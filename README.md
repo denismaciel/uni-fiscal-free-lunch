@@ -34,7 +34,8 @@ To build only the paper:
 nix run .#paper
 ```
 
-The paper entrypoint is `paper/main.tex`. The built PDF is copied to
+The paper entrypoint is `paper/main.tex`. LaTeX build products are written to
+`compilation/`, and the built PDF is copied to
 `artifacts/fiscal-free-lunch-paper.pdf`.
 
 ## PDF Snapshot
@@ -103,7 +104,10 @@ The repository uses `uv`; do not assume a global `python`.
 ```text
 paper/
   main.tex
+  preamble.tex
+  frontmatter/
   chapters/
+  backmatter/
   bibliography/
   figures/
 code/
