@@ -128,6 +128,15 @@ set(gca,'Xlim',[1,20]);
 set(gca,'XTick',[2:4:20]);
 set(gca,'XTickLabel',{'0' ,'4' ,'8' ,'12' ,'16' });
 
+mkdir('output');
+mkdir('output/figures');
+if xip == 1
+	print('-dpdf', 'output/figures/figure-2-no-inflation-response.pdf');
+elseif xip == 0.8
+	print('-dpdf', 'output/figures/figure-2-5-quarter-price-contract.pdf');
+else
+	print('-dpdf', sprintf('output/figures/figure-2-xip-%0.2f.pdf', xip));
+end;
 
 //Some additional calculations
 //Calculate positive output of government spending shock on debt

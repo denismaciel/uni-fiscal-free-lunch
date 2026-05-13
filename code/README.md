@@ -24,6 +24,16 @@ Example with explicit calibration:
 ./scripts/run-dynare-docker.sh figure-2 --xip 1 --gam-xgap 66.15 --gam-pi 66.15
 ```
 
+Generated figures are copied to `artifacts/figures/`. The paper reads generated
+figures from there; the committed figures under `paper/figures/` are retained as
+reference imports.
+
+To regenerate code outputs and build the paper:
+
+```sh
+./scripts/build-all.sh
+```
+
 Known validated Figure 2 output:
 
 ```text

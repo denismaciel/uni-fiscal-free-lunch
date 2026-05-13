@@ -60,6 +60,9 @@ figure;
 	set(gca,'XTick',[-0.5:0.25:0.5]);
 	set(gca,'XTickLabel', {'-10' ,'-5' ,'0' ,'5' ,'10' });
 hold off;
+mkdir('output');
+mkdir('output/figures');
+print('-dpdf', 'output/figures/figure-3-liquidity-trap-duration.pdf');
 
 
 //////////////////////////////////////////////////////////////////
@@ -80,63 +83,63 @@ for i = 1:size(A,3)
 	z = A(8,2,i);
 	g(i) = z;
 
-	z = A(6, 2, i)
+	z = A(6, 2, i);
 	debtgov(i) = z;
 end;
 
 //Calculate the marginal multiplier (mul) and the 'debt multiplier' (pbalance)
 mul 		= zeros((size(A,3)-1),1);
-pbalance	= zeros((size(A,3)-1),1)
+pbalance	= zeros((size(A,3)-1),1);
 
 for i = 1:(length(y)-1)
 	mul(i) 		= ((y(i+1) - y(i))/ (g(i+1) - g(i))) * 1/shrgy;
 	pbalance(i) = ((debtgov(i+1) - debtgov(i))/ (g(i+1) - g(i)));	
 end;
 
-//Combine values of shocks, output, governemnt spending, multiplier, 'debt multiplier' and the liquidity trap duration into a single data frame called liqmul
+//Combine values of shocks, output, governemnt spending, multiplier, debt multiplier and liquidity trap duration.
+z = length(x)-1;
 
-z = length(x)-1 
-
-liqmul = [transpose(x(1:z)), transpose(y(1:z)), transpose(g(1:z)), mul, pbalance, liqduration(1:(length(x)-1))];
-liqmul = mat2dataset(liqmul, 'VarNames', {'shock', 'y', 'g', 'multiplier', 'govdebt' , 'duration'} );
+liqmul_shock = transpose(x(1:z));
+liqmul_y = transpose(y(1:z));
+liqmul_g = transpose(g(1:z));
+liqmul_multiplier = mul;
+liqmul_govdebt = pbalance;
+liqmul_duration = liqduration(1:z);
 
 //Calculate the Average Multiplier
 // Find the smaller shock, which approximates the scenario with no goverment spending (g = 0), and use this as g1.
-m = find(liqmul.shock ==  min(abs(liqmul.shock)));
+m = find(liqmul_shock == min(abs(liqmul_shock)));
 
 avgmul = zeros(length(x)-1, 1);
-for i = m:length(liqmul);
+for i = m:length(liqmul_shock);
 	z =  (y(i) - y(m))/(g(i) - g(m)) * (1/shrgy);
 	avgmul(i) = z;
 end
 avgmul(avgmul == 0) = NaN;
-avgmul = mat2dataset(avgmul, 'VarNames', {'averagemul'}); //transform avgmul into a data frame
-
-//Add the Average Multiplier as column of the data frame (liqmul)
-liqmul = cat(2, liqmul, avgmul)
 
 //DROP ROWS: exclude multiplier where g(i) and g(i+1) are in different liquidty traps
-toincl = zeros((length(liqmul)-1),1);
-for i = 1:(length(liqmul)-1)
-	toincl(i) = liqmul.duration (i) == liqmul.duration(i+1);
+toincl = zeros((length(liqmul_shock)-1),1);
+for i = 1:(length(liqmul_shock)-1)
+	toincl(i) = liqmul_duration(i) == liqmul_duration(i+1);
 end;
 
-toincl = mat2dataset(toincl, 'VarNames', {'toinclude'})
-
-liqmul = cat(2, liqmul(1:(length(liqmul)-1),:), toincl);
-
-droprow = find(liqmul.toinclude == 0);
+liqmul_shock = liqmul_shock(1:(length(liqmul_shock)-1));
+liqmul_multiplier = liqmul_multiplier(1:(length(liqmul_multiplier)-1));
+avgmul = avgmul(1:(length(avgmul)-1));
 
 // Drop rows in which y1 and y0 are in different liquidity traps, i.e. toinclude columns equals zero
-liqmul(droprow,:) = [];
+droprow = find(toincl == 0);
+liqmul_shock(droprow) = [];
+liqmul_multiplier(droprow) = [];
+avgmul(droprow) = [];
 
 
 /////////////////////////////////////////////////////////////////
 //Figure 3: Spending Multiplier and Government Debt Responses //
 ///////////////////////////////////////////////////////////////
 figure;
-plot(liqmul.shock, liqmul.multiplier, 'b',    'linewidth',5); hold on;
-plot(liqmul.shock, liqmul.averagemul, 'g -.', 'linewidth',5);
+plot(liqmul_shock, liqmul_multiplier, 'b',    'linewidth',5); hold on;
+plot(liqmul_shock, avgmul, 'g -.', 'linewidth',5);
 title('No Inflation Response','fontweight','bold','FontSize',18)
 legend('Marginal multiplier','Average multiplier','location','SouthEast');
 ax1 = gca;
@@ -148,6 +151,8 @@ set(gca,'Xlim',[-0.55,0.55]);
 set(gca,'XTick',[-0.5:0.25:0.5]);
 set(gca,'XTickLabel', {'-10' ,'-5' ,'0' ,'5' ,'10' });
 hold off;
+mkdir('output/figures/figure-3-runs');
+print('-dpdf', sprintf('output/figures/figure-3-runs/multiplier-xip-%0.2f.pdf', xip));
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -183,6 +188,6 @@ else
 end
 
 // Save files in the working folder to be used in "Figure 3 Plotting.mod"
-save mul_file mul_various
-save pbalance_file pbalance_various
-save x_file x
+save mul_file.mat mul_various
+save pbalance_file.mat pbalance_various
+save x_file.mat x

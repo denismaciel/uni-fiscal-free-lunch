@@ -20,6 +20,9 @@ set(gca,'XTickLabel', {'-10' ,'-5' ,'0' ,'5' ,'10' });
 xlabel(gca,'% Change in Govt Spend (Share of GDP)')
 legend('10 qtr contracts','5 qtr contracts','4 qtr contracts','location','NorthEast');
 hold off;
+mkdir('output');
+mkdir('output/figures');
+print('-dpdf', 'output/figures/figure-3-alternative-contract-durations-multiplier.pdf');
 
 % Figure 3 'Government Debt to Actual GDP No Inflation Response'
 figure;
@@ -34,6 +37,7 @@ set(gca,'XTick',[0:0.1:0.5]);
 set(gca,'XTickLabel', {'0' , '2' ,'4' ,'6' ,'8' ,'10' });
 xlabel(gca,'% Change in Govt Spend (Share of GDP)')
 hold off;
+print('-dpdf', 'output/figures/figure-3-no-inflation-response-government-debt.pdf');
 
 % Figure 3 'Government Debt to Acutal GDP with Alternative Price Contract Durations'
 figure;
@@ -52,3 +56,4 @@ set(gca,'XTickLabel', {'0' , '2' ,'4' ,'6' ,'8' ,'10' });
 xlabel(gca,'% Change in Govt Spend (Share of GDP)')
 legend('10 qtr contracts','5 qtr contracts','4 qtr contracts','location','SouthEast');
 hold off;
+print('-dpdf', 'output/figures/figure-3-alternative-contract-durations-government-debt.pdf');

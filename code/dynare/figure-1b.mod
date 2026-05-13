@@ -58,3 +58,6 @@ xlabel('Potential Real Interest Rate');
 set(gca,'Xlim',[-14,0]);
 set(gca,'XTick',[-14:2:0]);
 set(gca,'XTickLabel',{'-14' ,'-12' ,'-10' ,'-8' ,'-6' ,'-4' ,'-2' ,'0' });
+mkdir('output');
+mkdir('output/figures');
+print('-dpdf', 'output/figures/figure-1b.pdf');

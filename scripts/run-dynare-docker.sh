@@ -4,10 +4,12 @@ set -euo pipefail
 usage() {
   cat <<'USAGE'
 Usage:
-  ./scripts/run-dynare-docker.sh figure-2 [--xip VALUE] [--gam-xgap VALUE] [--gam-pi VALUE] [--sig-con VALUE] [--sig-gov VALUE]
+  ./scripts/run-dynare-docker.sh all-figures
+  ./scripts/run-dynare-docker.sh figure-1a|figure-1b|figure-2|figure-3 [--xip VALUE] [--gam-xgap VALUE] [--gam-pi VALUE] [--sig-con VALUE] [--sig-gov VALUE]
   ./scripts/run-dynare-docker.sh path/to/model.mod
 
 Examples:
+  ./scripts/run-dynare-docker.sh all-figures
   ./scripts/run-dynare-docker.sh figure-2
   ./scripts/run-dynare-docker.sh figure-2 --xip 0.8 --gam-xgap 66.15
 USAGE
@@ -73,7 +75,66 @@ rm -rf "$run_dir"
 mkdir -p "$run_dir"
 cp -R "$src_dir"/. "$run_dir"/
 
+write_wrapper() {
+  local target="$1"
+  local body="$2"
+  cat > "$run_dir/$target" <<EOF
+@#define XIP = $xip
+@#define GAM_XGAP = $gam_xgap
+@#define GAM_PI = $gam_pi
+@#define SIG_CON = $sig_con
+@#define SIG_GOV = $sig_gov
+
+@#include "model/base.mod"
+@#include "$body"
+EOF
+}
+
+run_dynare_model() {
+  local model="$1"
+  docker run --rm \
+    --entrypoint bash \
+    --user root \
+    -v "$run_dir:/work" \
+    -w /work \
+    dynare/dynare:latest \
+    -lc "octave --no-gui --eval 'addpath(\"/home/matlab/dynare/matlab\"); dynare $model'"
+}
+
 case "$experiment" in
+  all-figures)
+    write_wrapper "figure-1a-run.mod" "figure-1a.mod"
+    write_wrapper "figure-1b-run.mod" "figure-1b.mod"
+    cat > "$run_dir/figure-2-run.mod" <<EOF
+@#define XIP = $xip
+@#define GAM_XGAP = $gam_xgap
+@#define GAM_PI = $gam_pi
+@#define SIG_CON = $sig_con
+@#define SIG_GOV = $sig_gov
+
+@#include "model/base.mod"
+@#include "experiments/figure-2.mod"
+EOF
+    cat > "$run_dir/figure-2-xip-0_8-run.mod" <<EOF
+@#define XIP = 0.8
+@#define GAM_XGAP = $gam_xgap
+@#define GAM_PI = $gam_pi
+@#define SIG_CON = $sig_con
+@#define SIG_GOV = $sig_gov
+
+@#include "model/base.mod"
+@#include "experiments/figure-2.mod"
+EOF
+    models=("figure-1a-run.mod" "figure-1b-run.mod" "figure-2-run.mod" "figure-2-xip-0_8-run.mod")
+    ;;
+  figure-1a)
+    write_wrapper "experiment.mod" "figure-1a.mod"
+    models=("experiment.mod")
+    ;;
+  figure-1b)
+    write_wrapper "experiment.mod" "figure-1b.mod"
+    models=("experiment.mod")
+    ;;
   figure-2)
     cat > "$run_dir/experiment.mod" <<EOF
 @#define XIP = $xip
@@ -85,10 +146,13 @@ case "$experiment" in
 @#include "model/base.mod"
 @#include "experiments/figure-2.mod"
 EOF
-    model="experiment.mod"
+    models=("experiment.mod")
+    ;;
+  figure-3)
+    models=()
     ;;
   *.mod)
-    model="$experiment"
+    models=("$experiment")
     ;;
   *)
     echo "Unknown experiment: $experiment" >&2
@@ -97,13 +161,31 @@ EOF
     ;;
 esac
 
-docker run --rm \
-  --entrypoint bash \
-  --user root \
-  -v "$run_dir:/work" \
-  -w /work \
-  dynare/dynare:latest \
-  -lc "octave --no-gui --eval 'addpath(\"/home/matlab/dynare/matlab\"); dynare $model'"
+if [[ "$experiment" == "figure-3" || "$experiment" == "all-figures" ]]; then
+  for figure_3_xip in 1 0.9 0.8 0.75; do
+    xip="$figure_3_xip"
+    wrapper_xip="$(printf '%s' "$figure_3_xip" | tr '.' '_')"
+    write_wrapper "figure_3_xip_${wrapper_xip}.mod" "figure-3.mod"
+    run_dynare_model "figure_3_xip_${wrapper_xip}.mod"
+  done
+
+  docker run --rm \
+    --entrypoint bash \
+    --user root \
+    -v "$run_dir:/work" \
+    -w /work \
+    dynare/dynare:latest \
+    -lc "octave --no-gui figure-3-plotting.mod"
+fi
+
+for model in "${models[@]}"; do
+  run_dynare_model "$model"
+done
+
+if [[ -d "$run_dir/output/figures" ]]; then
+  mkdir -p "$repo_root/artifacts/figures"
+  cp -R "$run_dir/output/figures"/. "$repo_root/artifacts/figures"/
+fi
 
 docker run --rm \
   --entrypoint bash \

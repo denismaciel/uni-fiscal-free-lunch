@@ -37,6 +37,9 @@ code/**/*.mat
 code/**/*_dynamic.m
 code/**/*_static.m
 artifacts/dynare-run/
+artifacts/figures/
+artifacts/comparison/
+artifacts/figure-comparison.html
 
 # Local/editor caches
 .latex/

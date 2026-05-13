@@ -57,6 +57,9 @@ set(gca,'XTick',[2:4:12]);
 set(gca,'XTickLabel', {'0' ,'4' ,'8' ,'12' });
 xlabel('Quarters');
 legend(' Potential real rate (taste shock only)',' Nominal interest rate (taste shock only)', ' Pot real rate -1% g(t) increase',' Pot real rate -2% g(t) increase','location','SouthEast');
+mkdir('output');
+mkdir('output/figures');
+print('-dpdf', 'output/figures/figure-1a.pdf');
 
 //Calculate liquidity trap duration
 liqduration =  [sum(irfs_gov1(3,1:end) == -ibar) sum(irfs_gov2(3,1:end) == -ibar)]
