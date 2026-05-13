@@ -91,7 +91,6 @@
             packages = [
               self.packages.${system}.default
               self.packages.${system}.r
-              pkgs.dynare
               pkgs.octave
               pkgs.uv
             ];

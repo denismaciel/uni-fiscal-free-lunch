@@ -30,6 +30,14 @@
 # Generated EPS conversions
 *-eps-converted-to.pdf
 
+# Dynare build products
+**/+*/
+code/**/*.log
+code/**/*.mat
+code/**/*_dynamic.m
+code/**/*_static.m
+artifacts/dynare-run/
+
 # Local/editor caches
 .latex/
 .venv/
