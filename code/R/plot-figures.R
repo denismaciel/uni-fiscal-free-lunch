@@ -8,8 +8,47 @@ suppressPackageStartupMessages({
 
 repo_root <- normalizePath(system("git rev-parse --show-toplevel", intern = TRUE), mustWork = TRUE)
 
-data_dir <- file.path(repo_root, "artifacts", "data")
-figure_dir <- file.path(repo_root, "artifacts", "figures")
+args <- commandArgs(trailingOnly = TRUE)
+
+arg_value <- function(name, default = NULL) {
+  prefix <- paste0(name, "=")
+  inline <- args[str_starts(args, prefix)]
+  if (length(inline)) {
+    return(str_remove(inline[[1]], fixed(prefix)))
+  }
+
+  position <- match(name, args)
+  if (!is.na(position) && position < length(args)) {
+    return(args[[position + 1]])
+  }
+
+  default
+}
+
+data_impl <- arg_value("--impl", Sys.getenv("FFL_DATA_IMPL", unset = "original"))
+if (data_impl == "dynare") {
+  data_impl <- "original"
+}
+if (!data_impl %in% c("original", "python")) {
+  stop("--impl must be one of: original, python", call. = FALSE)
+}
+
+default_data_dir <- if (data_impl == "python") {
+  file.path(repo_root, "artifacts", "python-data")
+} else {
+  file.path(repo_root, "artifacts", "data")
+}
+
+data_dir <- normalizePath(
+  arg_value("--data-dir", Sys.getenv("FFL_DATA_DIR", unset = default_data_dir)),
+  mustWork = TRUE
+)
+figure_dir <- arg_value(
+  "--figure-dir",
+  Sys.getenv("FFL_FIGURE_DIR", unset = file.path(repo_root, "artifacts", "figures"))
+)
+message("Plotting ", data_impl, " data from ", data_dir)
+
 dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(file.path(figure_dir, "figure-3-runs"), recursive = TRUE, showWarnings = FALSE)
 

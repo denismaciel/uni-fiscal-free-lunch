@@ -38,6 +38,7 @@ code/**/*_dynamic.m
 code/**/*_static.m
 artifacts/dynare-run/
 artifacts/data/
+artifacts/python-data/
 artifacts/figures/
 artifacts/comparison/
 artifacts/figure-comparison.html
@@ -45,5 +46,8 @@ artifacts/figure-comparison.html
 # Local/editor caches
 .latex/
 .venv/
+.pytest_cache/
+__pycache__/
+*.pyc
 .direnv/
 .DS_Store

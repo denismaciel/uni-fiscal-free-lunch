@@ -34,6 +34,16 @@ To regenerate code outputs and build the paper:
 ./scripts/build-all.sh
 ```
 
+Python port:
+
+```sh
+cd code/python
+uv run fiscal-free-lunch run all-figures --output ../../artifacts/python-data
+uv run fiscal-free-lunch compare --dynare ../../artifacts/data --python ../../artifacts/python-data
+cd ../..
+nix shell .#r --command Rscript --vanilla code/R/plot-figures.R --impl python
+```
+
 Known validated Figure 2 output:
 
 ```text
